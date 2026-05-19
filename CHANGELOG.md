@@ -16,14 +16,11 @@ Exceptions are acceptable depending on the circumstances (critical bug fixes tha
 
 ## [Unreleased]
 
-### Added
+## [2.0.1] - 2026-05-19
 
 ### Changed
 
 - refreshed `.github/copilot-instructions.md` to include `CHANGELOG.md` and `.gitignore` in the repository structure
-
-### Removed
-
 
 ## [2.0.0] - 2019-01-03
 
