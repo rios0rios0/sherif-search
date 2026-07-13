@@ -16,6 +16,7 @@ sherif-search/
 │   └── Icon.ico                  # Application icon (magnifying glass)
 ├── .gitignore                    # Ignore rules for build output and IDE files
 ├── CHANGELOG.md                  # Release history (Keep a Changelog format)
+├── CLAUDE.md                     # Guidance for Claude Code sessions (companion to this file)
 ├── Clear.bat                     # Cleans Delphi build artifacts (*.dcu, *.opt, *.dsm, etc.)
 ├── CONTRIBUTING.md               # Historical build information
 ├── LICENSE                       # GNU GPL v3.0
