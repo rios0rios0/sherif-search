@@ -97,7 +97,7 @@ Run `Clear.bat` to remove Delphi intermediate files (`*.dcu`, `*.opt`, `*.dsm`, 
 
 ## CI/CD Pipeline
 
-There is **no automated CI/CD pipeline**. The project is discontinued and compiled manually in the Delphi IDE on Windows.
+There is **no automated build or deployment pipeline**. The project is discontinued and compiled manually in the Delphi IDE on Windows. The only workflows are `.github/workflows/claude-review.yaml` and `.github/workflows/claude-mention.yaml`, which call the shared Claude reusable workflows in `rios0rios0/pipelines` and need the `CLAUDE_CODE_OAUTH_TOKEN` secret.
 
 ## Development Workflow
 
