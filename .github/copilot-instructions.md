@@ -10,13 +10,17 @@ Sherif Search is a **discontinued** Windows desktop application built in **Borla
 
 ```
 sherif-search/
+├── .changes/unreleased/          # chlog changelog fragments
 ├── .github/
-│   └── copilot-instructions.md   # This file
+│   ├── copilot-instructions.md   # This file
+│   ├── skills/code-review/       # Repository code-review skill
+│   └── workflows/                # PR checks, Claude review and mention
 ├── Imgs/
 │   └── Icon.ico                  # Application icon (magnifying glass)
-├── .gitignore                    # Ignore rules for build output and IDE files
-├── CHANGELOG.md                  # Release history (Keep a Changelog format)
-├── CLAUDE.md                     # Guidance for Claude Code sessions (companion to this file)
+├── .gitignore                    # Java/Maven template; does not exclude Delphi build output
+├── AGENTS.md                     # Shared coding-agent guidance (companion to this file)
+├── CHANGELOG.md                  # Release history (generated from chlog fragments)
+├── CLAUDE.md                     # Imports AGENTS.md for Claude Code
 ├── Clear.bat                     # Cleans Delphi build artifacts (*.dcu, *.opt, *.dsm, etc.)
 ├── CONTRIBUTING.md               # Historical build information
 ├── LICENSE                       # GNU GPL v3.0
@@ -106,7 +110,7 @@ Since this project is discontinued, the typical workflow for any historical refe
 1. Edit `.pas` or `.dfm` files directly in Borland Delphi 7.
 2. Compile and test manually on a Windows machine.
 3. Run `Clear.bat` to remove build artifacts before committing.
-4. Commit only source files (`*.dpr`, `*.pas`, `*.dfm`, `*.res`, `*.bat`, `Imgs/`). Do **not** commit compiled artifacts (`*.exe`, `*.dcu`, `*.opt`, etc.).
+4. Do **not** commit compiled artifacts (`*.exe`, `*.dcu`, `*.opt`, etc.); `.gitignore` does not exclude them.
 
 ## Coding Conventions
 
@@ -121,9 +125,9 @@ Since this project is discontinued, the typical workflow for any historical refe
 |-------------------------------|-------------------------------------------------------------------|
 | Build the project             | Open `SS.dpr` in Delphi 7, press **Ctrl+F9**                     |
 | Clean build artifacts         | Run `Clear.bat` in the project root                              |
-| Add a new search engine       | Add a radio button in `USS.dfm`, extend `CheckRButton` and `ThreadSearch` in `USS.pas` |
+| Add a new search engine       | Add an `Rb<N>` radio button in `USS.dfm` (with an `OnClick` that sets filter visibility) and a matching `case Op` branch in `ThreadSearch`; `CheckRButton` needs no change |
 | Add new admin paths           | Add entries to the admin path list box at runtime via right-click |
-| Open a result in browser      | Double-click or right-click a URL in the results list            |
+| Open a result in browser      | Right-click a URL in the results list and choose open (`MniOpenClick`) |
 
 ## Troubleshooting
 

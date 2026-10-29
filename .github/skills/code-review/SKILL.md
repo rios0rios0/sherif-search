@@ -5,7 +5,7 @@ description: "Review pull requests and diffs in sherif-search — the preserved 
 
 # Code review — `sherif-search`
 
-`sherif-search` queries Google, Yahoo, Bing and Baidu, filters by domain and language, and extracts result links. Almost all of it lives in one ~1100-line unit, `USS.pas`, with a threaded search routine and a `TIEParser` callback pulling `<a href>` anchors. It is a preserved archive, discontinued in 2013.
+`sherif-search` queries Google, Yahoo, Bing, Baidu, Lycos and Amfibi, filters by domain and language, and extracts result links. Almost all of it lives in one ~1100-line unit, `USS.pas`, with a threaded search routine and a `TIEParser` callback pulling `<a href>` anchors. It is a preserved archive, discontinued in 2013.
 
 ## When to use this skill
 
@@ -20,7 +20,7 @@ The canonical engineering standards live in the
 repo-tailored index into that guide plus the rules that only apply here. Precedence, highest
 first:
 
-1. This repository's `.github/copilot-instructions.md`, `CLAUDE.md`, and `CONTRIBUTING.md` —
+1. This repository's `.github/copilot-instructions.md`, `AGENTS.md`, and `CONTRIBUTING.md` —
    they describe *this* codebase and its load-bearing invariants.
 2. The **rios0rios0/guide** wiki — the shared standard.
 3. General language idiom.
@@ -64,11 +64,11 @@ These are the checks that catch real defects in this repository. Work through
 them before the generic ones.
 
 - **`ThreadSearch` runs off the main thread and the VCL is not thread-safe.** Any UI update from the worker must be synchronised; a direct control write from the thread is a real crash, not a style point. **Critical.**
-- **WinINet handles must be closed on every path.** `CheckConexao` (`InternetGetConnectedState`), `CheckUrl` (`InternetOpenUrl`/`HttpQueryInfo`), and the fetch routines each open handles — an early return that skips the close leaks them until the process dies.
+- **WinINet handles must be closed on every path.** `CheckUrl` opens an `InternetOpen` session and an `InternetOpenUrl` handle; an early return that skips `InternetCloseHandle` leaks them until the process dies. `CheckConexao` opens no handle, and page fetches go through `TIEParser` and Indy's `TIdHTTP`, which manage their own.
 - **Engine URL construction is per-engine and user input reaches it.** A query must be URL-encoded before it is concatenated; an unencoded term produces wrong results at best and a malformed request at worst.
 - **HTML parsing is against pages we do not control.** `IPrsrAnchor` extracts anchors from markup that changes without notice — a parser change needs a guard so a missing element degrades quietly instead of raising on every search.
 - **Search-engine scraping is rate-limited and blocked.** A change that adds parallelism, retry storms, or user-agent rotation to evade blocking is out of scope for an archive; note it and stop.
-- **`CheckRButton` maps the radio buttons to engines.** Adding an engine means a control, a mapping entry, and a URL builder — keep the mapping table shaped as a table rather than growing an `if` chain.
+- **Engine dispatch is name-encoded.** `CheckRButton` returns the checked radio button's `Name`, and `ThreadSearch` uses the digit after `Rb` as the `case Op` selector. Adding an engine means an `Rb<N>` control in `USS.dfm` and a matching `case Op` branch; a change that renames a radio button or lets the two drift apart breaks dispatch.
 - **Treat this as an archive.** No modernisation, no reformatting, no new dependencies. The Delphi conventions in `USS.pas` are the standard.
 - **`Clear.bat` defines build output** (`.dcu`, `.opt`, `.dsm`, …); none of it belongs in a commit.
 
@@ -108,7 +108,7 @@ hand.
 - Fragment bodies start with a lowercase verb in simple past tense, capitalise proper nouns
   (GitHub, Go, Docker), and wrap code identifiers and versions in backticks.
 - `README.md` is updated whenever usage, setup, configuration, or architecture changes;
-  `.github/copilot-instructions.md` and `CLAUDE.md` whenever the workflow, commands, or
+  `.github/copilot-instructions.md` and `AGENTS.md` whenever the workflow, commands, or
   structure changes. Documentation and code ship in one commit.
 
 ## Git Flow and pull-request hygiene
@@ -174,7 +174,7 @@ A review that raises noise gets ignored. Do not report these:
 ### Change-control checklist
 - [ ] Changelog entry present for every behavioural change
 - [ ] `README.md` updated if usage, setup, or architecture changed
-- [ ] `.github/copilot-instructions.md` and `CLAUDE.md` updated if the workflow, commands, or structure changed
+- [ ] `.github/copilot-instructions.md` and `AGENTS.md` updated if the workflow, commands, or structure changed
 - [ ] Commit messages follow `type(SCOPE): message` in simple past tense
 - [ ] Breaking changes flagged in the commit footer, the changelog, and the PR description
 
@@ -187,7 +187,7 @@ A review that raises noise gets ignored. Do not report these:
 | Severity       | Use for                                                                                                                            |
 |----------------|------------------------------------------------------------------------------------------------------------------------------------|
 | **Critical**   | Broken dependency direction, a leaked secret, an injection or authentication flaw, a missing changelog entry, a banned mock library, a load-bearing invariant broken, a test deleted rather than fixed. |
-| **Warning**    | Naming that departs from the guide, a missing test for a new branch of logic, an unexplained magic value, a stale README or instructions file, a `switch` that should be a map. |
+| **Warning**    | Naming that departs from the guide, a missing test for a new branch of logic, an unexplained magic value, a stale README or instructions file. |
 | **Suggestion** | Readability, consistency with neighbouring modules, and performance ideas that no rule mandates.                                     |
 
 Rank findings most severe first, and state plainly when nothing blocks the merge — an empty
