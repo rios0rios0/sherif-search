@@ -1,0 +1,3 @@
+kind: 'Changed'
+body: 'refreshed `AGENTS.md`, `.github/copilot-instructions.md`, `.github/skills/code-review/SKILL.md` and `README.md` to describe the PR-only CI, the `case Op` engine dispatch, the `TIEParser` fetch path, the `CheckUrl` fallback, the Windows-1252 encoding of `USS.pas`, and the right-click-only result opening, and to point at `AGENTS.md` instead of `CLAUDE.md`'
+time: '2026-10-29T01:06:42.792290709Z'

@@ -53,7 +53,7 @@ A Windows desktop application that automates web searches across six search engi
 - **Progress bars** for both search and scan operations
 - **Dual status bars** showing found count, page progress, and current operation status
 - **Animated window close** -- uses `AnimateWindow` with `AW_HIDE + AW_BLEND` for a fade-out effect on exit
-- **Open in browser** -- double-click or right-click any found URL to open it in the default browser via `ShellExecute`
+- **Open in browser** -- right-click any found URL to open it in the default browser via `ShellExecute`
 
 ## Technologies
 
