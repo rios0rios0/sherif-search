@@ -22,6 +22,13 @@ Exceptions are acceptable depending on the circumstances (critical bug fixes tha
 
 ## [Unreleased]
 
+## [2.4.2] - 2026-11-04
+
+### Changed
+
+- moved the agent instructions from `CLAUDE.md` to `AGENTS.md`, keeping a `CLAUDE.md` that imports it
+- refreshed `AGENTS.md`, `.github/copilot-instructions.md`, `.github/skills/code-review/SKILL.md` and `README.md` to describe the PR-only CI, the `case Op` engine dispatch, the `TIEParser` fetch path, the `CheckUrl` fallback, the Windows-1252 encoding of `USS.pas`, and the right-click-only result opening, and to point at `AGENTS.md` instead of `CLAUDE.md`
+
 ## [2.4.1] - 2026-09-08
 
 ### Changed
